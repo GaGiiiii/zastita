@@ -118,7 +118,7 @@ class Database extends PDO {
     $keys = array_keys($data);
 
     //Map keys to format function
-    $keys = array_map(function($key){
+    $keys = array_map(function ($key) {
       return $key = "user." . $key;
     }, $keys);
 
@@ -248,17 +248,76 @@ class Database extends PDO {
 
   /* oSELECT ALL */
 
-  public function getAllUsers() {
+  public function getAllProducts() {
     try {
-      $query = Database::getInstance()->getConnection()->prepare("SELECT * FROM `user` u");
+      $query = Database::getInstance()->getConnection()->prepare("SELECT * FROM `product`");
       $query->execute();
-      $users = $query->fetchAll(PDO::FETCH_ASSOC);
+      $products = $query->fetchAll(PDO::FETCH_ASSOC);
 
-      return $users;
+      return $products;
     } catch (PDOException $e) {
       echo "<p class='alert mb-0 alert-danger'>PDO EXCEPTION: " . $e->getMessage() . "</p>";
 
       return [];
+    }
+  }
+
+  public function addProduct($data) {
+    try {
+      $query = Database::getInstance()->getConnection()->prepare("INSERT INTO `product` (name, description, price, image) VALUES (?, ?, ?, ?)");
+      $result = $query->execute([
+        $data['name'],
+        $data['description'],
+        $data['price'],
+        $data['image'],
+      ]);
+
+      return $result;
+    } catch (PDOException $e) {
+      echo "<p class='alert mb-0 alert-danger'>PDO EXCEPTION: " . $e->getMessage() . "</p>";
+
+      return false;
+    }
+  }
+
+  public function deleteProduct($id) {
+    try {
+      $query = Database::getInstance()->getConnection()->prepare("DELETE FROM `product` WHERE id = :id LIMIT 1");
+      $result = $query->execute(array(':id' => $id));
+
+      // $query = Database::getInstance()->getConnection()->prepare("DELETE FROM user_course WHERE course_id = :id");
+      // $result = $query->execute(array(':id' => $id));
+
+      // $query = Database::getInstance()->getConnection()->prepare("DELETE FROM `clip` WHERE course_id = :id");
+      // $result = $query->execute(array(':id' => $id));
+
+      // $query = Database::getInstance()->getConnection()->prepare("DELETE FROM `chapter` WHERE course_id = :id");
+      // $result = $query->execute(array(':id' => $id));
+
+      return $result;
+    } catch (PDOException $e) {
+      echo "<p class='alert mb-0 alert-danger'>PDO EXCEPTION: " . $e->getMessage() . "</p>";
+
+      exit;
+    }
+  }
+
+  public function updateProduct($data, $productID) {
+    try {
+      $query = Database::getInstance()->getConnection()->prepare("UPDATE `product` SET name = ?, price = ?, image = ?, description = ? WHERE id = ?");
+      $result = $query->execute([
+        $data['name_edit'],
+        $data['price_edit'],
+        $data['image_edit'],
+        $data['description_edit'],
+        $productID,
+        ]);
+
+      return $result;
+    } catch (PDOException $e) {
+      echo "<p class='alert mb-0 alert-danger'>PDO EXCEPTION: " . $e->getMessage() . "</p>";
+
+      return false;
     }
   }
 

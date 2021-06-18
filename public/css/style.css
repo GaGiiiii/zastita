@@ -1,0 +1,37 @@
+.card-col:nth-of-type(n+4) {
+  margin-top: 3rem;
+}
+
+.card {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.product-image{
+  transition: transform .3s ease;
+}
+
+.product-image:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 992px) {
+  .card-col:nth-of-type(n+3) {
+    margin-top: 3rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .card-col:nth-of-type(n+2) {
+    margin-top: 3rem;
+  }
+}
+
+.add-product-btn {
+  padding: .1rem .5rem;
+}
+
+.table-product td {
+  vertical-align: middle;
+}

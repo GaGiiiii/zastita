@@ -18,7 +18,7 @@ $currentPage = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], 
   <!-- BOOTSTRAP -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
   <!-- CUSTOM CSS -->
-  <link rel="stylesheet" href="<?php echo BASE_URL . "public/css/styles.css" ?>"> <!-- Ovde treba putanja kao da smo u index.php fajlu a ne u header.php -->
+  <link rel="stylesheet" href="<?php echo BASE_URL . "public/css/style.css" ?>"> <!-- Ovde treba putanja kao da smo u index.php fajlu a ne u header.php -->
   <!-- FONT AWESOME -->
   <script src="https://kit.fontawesome.com/5c5689b7a2.js"></script>
 
@@ -51,6 +51,9 @@ $currentPage = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], 
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>profile.php">Profile</a></li>
+                <?php if ($_SESSION['user']['user.is_admin']) { ?>
+                  <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>admin.php">Admin</a></li>
+                <?php } ?>
                 <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>logout.php">Logout</a></li>
               </ul>
             </li>
