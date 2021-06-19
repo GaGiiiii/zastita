@@ -176,6 +176,7 @@ class Database extends PDO {
 
   public function logoutUser() {
     unset($_SESSION['user']);
+    unset($_SESSION['cart']);
   }
 
   public function getUserByID($id) {
@@ -247,6 +248,23 @@ class Database extends PDO {
   }
 
   /* oSELECT ALL */
+
+  public function getProduct($id) {
+    try {
+      $query = Database::getInstance()->getConnection()->prepare("SELECT * FROM `product` WHERE id = :id");
+      $query->execute(array(
+        ':id' => $id,
+      ));
+
+      $product = $query->fetch(PDO::FETCH_ASSOC);
+
+      return $product;
+    } catch (PDOException $e) {
+      echo "<p class='alert mb-0 alert-danger'>PDO EXCEPTION: " . $e->getMessage() . "</p>";
+
+      return null;
+    }
+  }
 
   public function getAllProducts() {
     try {

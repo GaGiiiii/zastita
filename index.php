@@ -1,8 +1,27 @@
 <?php
 
 require_once "./classes/Database.php";
+require_once "./includes/functions.php";
 
 $products = Database::getInstance()->getAllProducts();
+
+if (!isset($_SESSION['cart']) && Database::getInstance()->isUserLoggedIn()) {
+  $_SESSION['cart'] = array();
+}
+
+if (isset($_POST['add-to-cart'])) {
+  $productID = $_POST['productID'];
+  $product = Database::getInstance()->getProduct($productID);
+  if (!inCart($product)) {
+    array_push($_SESSION['cart'], $product);
+  }
+}
+
+if (isset($_POST['remove-from-cart'])) {
+  $productID = $_POST['productID'];
+  $product = Database::getInstance()->getProduct($productID);
+  array_splice($_SESSION['cart'], array_search($product, $_SESSION['cart']), 1);
+}
 
 ?>
 
@@ -22,14 +41,17 @@ $products = Database::getInstance()->getAllProducts();
     <?php foreach ($products as $product) : ?>
       <div class="col-lg-4 col-md-6 card-col">
         <div class="card">
-          <img src="<?php echo $product['product.image']; ?>" class="card-img-top product-image" alt="Product image" height="275px">
+          <img src="<?php echo $product['product.image']; ?>" class="card-img-top product-image img-thumbnail" alt="Product image" height="275px">
           <div class="card-body">
             <h5 class="card-title"><?php echo $product['product.name']; ?></h5>
             <p class="card-text mb-0"><?php echo $product['product.description']; ?></p>
             <p class="card-text mt-1"><?php echo $product['product.price']; ?> RSD</p>
           </div>
           <div class="card-body pt-0">
-            <a href="#" class="card-link">Add to cart</a>
+            <form method="POST" class="d-inline">
+              <input type="hidden" name="productID" value="<?php echo $product['product.id'] ?? "-1"; ?>">
+              <button type="submit" name="<?php echo !inCart($product) ? "add-to-cart" : "remove-from-cart"; ?>" class="btn btn-primary"><?php echo !inCart($product) ? "Add to cart" : "Remove from cart"; ?></button>
+            </form>
           </div>
         </div>
       </div>

@@ -139,7 +139,7 @@ $products = Database::getInstance()->getAllProducts();
     <h1 class="g-0 mb-3">Admin Menu
       <hr>
     </h1>
-    <table class="table table-product">
+    <table class="table table-product table-hover table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -160,7 +160,7 @@ $products = Database::getInstance()->getAllProducts();
             <th scope="row" style="vertical-align: middle;"><?php echo ++$index; ?>.</th>
             <td><?php echo $product['product.name']; ?></td>
             <td><?php echo $product['product.description']; ?></td>
-            <td><img src="<?php echo $product['product.image']; ?>" alt="<?php echo $product['product.name']; ?> image" width="75px" height="75px"></td>
+            <td><img class="img-thumbnail" src="<?php echo $product['product.image']; ?>" alt="<?php echo $product['product.name']; ?> image" width="75px" height="75px"></td>
             <td><?php echo $product['product.price']; ?></td>
             <td>
               <button type="button" class="btn btn-warning add-product-btn text-white" data-bs-toggle="modal" data-bs-target="#editProductModal<?php echo $product['product.id']; ?>">

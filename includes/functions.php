@@ -64,4 +64,18 @@ function printFlashMessage($sessionName) {
     unset($_SESSION[$sessionName]);
   }
 }
-          
+
+// CART ==================================================================================================================
+
+function inCart($product) {
+  return in_array($product, $_SESSION['cart']);
+}
+
+function totalPriceInCart() {
+  $price = 0;
+  for ($i = 0; $i < sizeof($_SESSION['cart']); $i++) {
+    $price += $_SESSION['cart'][$i]['product.price'];
+  }
+
+  return $price;
+}
