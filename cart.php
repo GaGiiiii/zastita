@@ -75,7 +75,31 @@ if (isset($_POST['remove-from-cart'])) {
       </tbody>
     </table>
 
+    <div id="paypal-button-container" class="mt-5 text-center"></div>
+
   </div>
 </div>
+
+<?php if (sizeof($_SESSION['cart']) > 0) { ?>
+  <!-- Add the checkout buttons, set up the order and approve the order -->
+  <script>
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return new Promise((resolve, reject) => {
+          resolve("<?php $orderID = generateOrder($token, totalPriceInCart())['id']; echo $orderID; ?>");
+          // Kada generisemo order to cemo sacuvati u sesn taj ID i posle porediti sa onim dalje
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          alert('Transaction completed by ' + details.payer.name.given_name);
+          console.log(details);
+          // Ovde ubacis koje proizvode je uzeo u tom paymentu
+        });
+      }
+    }).render('#paypal-button-container'); // Display payment options on your web page
+  </script>
+<?php } ?>
+
 
 <?php include_once 'includes/footer.php' ?>

@@ -79,3 +79,66 @@ function totalPriceInCart() {
 
   return $price;
 }
+
+$token = getToken()['access_token'];
+
+function getToken() {
+  $clientID = "AQf3HNR-XCsd8q_DvLFWInNNZUYiu6-6AZrjgZ9fC4CFXa7mRe8jgze87PD7M7VzU5yOd2CVNo_Ci0Pd";
+  $secret = "EI4_bG_MB43Pv6OPN4sPr0q_JpEYcR1yBAsXxzs8vXe4g72tpPrM6S_996geOEOd6R_TSLh7wXfd8UOV";
+  $url = "https://api-m.sandbox.paypal.com/v1/oauth2/token";
+  $data = "grant_type=client_credentials";
+  $headers = [
+    "Accept: application/json",
+    "Accept-Language: en_US",
+  ];
+
+  $curl = curl_init();
+
+  curl_setopt($curl, CURLOPT_POST, 1);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+  curl_setopt($curl, CURLOPT_USERPWD, "$clientID:$secret");
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+  $result = json_decode(curl_exec($curl), true);
+  curl_close($curl);
+
+  return $result;
+}
+
+function generateOrder($token, $price) {
+  $url = "https://api-m.sandbox.paypal.com/v2/checkout/orders";
+  $data = [
+    "intent" => "CAPTURE",
+    "purchase_units" => [
+      [
+        "amount" => [
+          "currency_code" => "EUR",
+          "value" => $price,
+        ]
+      ]
+    ]
+  ];
+  $data = json_encode($data);
+  $headers = [
+    "Accept: application/json",
+    "Content-Type:application/json",
+    "Accept-Language: en_US",
+    "Authorization: Bearer " . $token,
+  ];
+
+  $curl = curl_init();
+
+  curl_setopt($curl, CURLOPT_POST, 1);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+  $result = json_decode(curl_exec($curl), true);
+  curl_close($curl);
+
+  return $result;
+}
