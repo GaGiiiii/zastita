@@ -48,10 +48,12 @@ if (isset($_POST['remove-from-cart'])) {
             <p class="card-text mt-1"><?php echo $product['product.price']; ?> RSD</p>
           </div>
           <div class="card-body pt-0">
-            <form method="POST" class="d-inline">
-              <input type="hidden" name="productID" value="<?php echo $product['product.id'] ?? "-1"; ?>">
-              <button type="submit" name="<?php echo !inCart($product) ? "add-to-cart" : "remove-from-cart"; ?>" class="btn btn-primary"><?php echo !inCart($product) ? "Add to cart" : "Remove from cart"; ?></button>
-            </form>
+            <?php if (Database::getInstance()->isUserLoggedIn()) { ?>
+              <form method="POST" class="d-inline">
+                <input type="hidden" name="productID" value="<?php echo $product['product.id'] ?? "-1"; ?>">
+                <button type="submit" name="<?php echo !inCart($product) ? "add-to-cart" : "remove-from-cart"; ?>" class="btn btn-primary"><?php echo !inCart($product) ? "Add to cart" : "Remove from cart"; ?></button>
+              </form>
+            <?php } ?>
           </div>
         </div>
       </div>
