@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Ensures optimal rendering on mobile devices. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <style>
+    button:focus {
+      box-shadow: none !important;
+    }
+
+    .card {
+      width: auto !important;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <div class="container mt-5">
+
+    <div class="row mb-3">
+      <div class="col">
+        Total in cart: <span class="cart-total">0</span>e
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-12 col-md-4 col-sm-6 mt-3 mt-sm-0">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Proizvod 1</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
+            <button data-price="10" class="btn btn-primary add-to-cart-btn">Add to cart 10e</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 col-sm-6 mt-3 mt-sm-0">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Proizvod 2</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
+            <button data-price="25" class="btn btn-primary add-to-cart-btn">Add to cart 25e</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 col-sm-6 mt-3 mt-sm-3 mt-md-0">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Proizvod 3</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
+            <button data-price="15" class="btn btn-primary add-to-cart-btn">Add to cart 15e</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <a href="cart.php" class="btn btn-primary">
+          Go to cart
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+    integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+    integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+    crossorigin="anonymous"></script>
+
+  <script>
+    let total = 0;
+    let cartTotal = document.querySelector(".cart-total");
+    let addToCartBtns = document.querySelectorAll(".add-to-cart-btn");
+    localStorage.setItem('total', 0);
+
+
+    addToCartBtns.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+
+        if (btn.innerHTML.toLowerCase().includes('add to cart')) {
+          let price = event.target.dataset.price;
+          total += parseInt(price);
+          cartTotal.innerHTML = total;
+          btn.innerHTML = `Remove from cart ${price}e`;
+          localStorage.setItem('total', total);
+        } else {
+          let price = event.target.dataset.price;
+          total -= parseInt(price);
+          cartTotal.innerHTML = total;
+          btn.innerHTML = `Add to cart ${price}e`;
+          localStorage.setItem('total', total);
+        }
+      });
+    })
+
+
+  </script>
+</body>
+
+</html>

@@ -85,7 +85,7 @@ class Database extends PDO {
 
   public function registerUser($data) {
     try {
-      $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT); // Hashovanje sifre sa md5
+      $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT); // Hashovanje sifre
       $query = Database::getInstance()->getConnection()->prepare("INSERT INTO user (email, password, username, image) VALUES (?, ?, ?, ?)");
       $result = $query->execute([
         $data['email'],
