@@ -43,9 +43,11 @@ $currentPage = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], 
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="<?php echo BASE_URL; ?>">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="<?php echo BASE_URL; ?>cart.php">Cart</a>
-          </li>
+          <?php if (Database::getInstance()->isUserLoggedIn()) { ?>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="<?php echo BASE_URL; ?>cart.php">Cart</a>
+            </li>
+          <?php } ?>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <?php if (Database::getInstance()->isUserLoggedIn()) { ?>
